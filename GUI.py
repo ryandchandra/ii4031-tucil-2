@@ -228,7 +228,7 @@ class GUI:
                 key_byteintarray = StringToByteIntArray(key)
                 
                 # encrypt
-                ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray, key_byteintarray)
+                ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray, key)
                 
                 # save
                 filename = fd.asksaveasfilename(
@@ -261,7 +261,7 @@ class GUI:
                 key_byteintarray = StringToByteIntArray(key)
                 
                 # decrypt
-                plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray, key_byteintarray)
+                plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray, key)
                 
                 # save
                 filename = fd.asksaveasfilename(
