@@ -1,3 +1,5 @@
+# Dimodifikasi dari program pada tugas sebelumnya
+
 import tkinter as tk
 import tkinter.scrolledtext as st
 

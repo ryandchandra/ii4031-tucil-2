@@ -1,3 +1,5 @@
+# Dimodifikasi dari program pada tugas sebelumnya
+
 import tkinter as tk
 import tkinter.scrolledtext as st
 import tkinter.filedialog as fd
@@ -222,7 +224,7 @@ class GUI:
             if (len(key)==0):
                 self.AlertWindow("Please insert key")
             else:
-                # baca per byte lalu masukkan ke array dalam bentuk int
+                # baca file per byte lalu simpan menjadi array of integer (byte)
                 plaintext_byteintarray = OpenFileAsByteIntArray(self.file)
                 
                 key_byteintarray = StringToByteIntArray(key)
@@ -238,6 +240,7 @@ class GUI:
                     defaultextension = [("All files","*.*")]
                 )
                 if (filename!=""):
+                    # save hasil enkripsi per byte
                     output_file = open(filename, "wb")
                     
                     for byteint in ciphertext_byteintarray:
@@ -255,7 +258,7 @@ class GUI:
             if (len(key)==0):
                 self.AlertWindow("Please insert key")
             else:
-                # baca per byte lalu masukkan ke array dalam bentuk int
+                # baca file per byte lalu simpan menjadi array of integer (byte)
                 ciphertext_byteintarray = OpenFileAsByteIntArray(self.file)
                 
                 key_byteintarray = StringToByteIntArray(key)
@@ -271,6 +274,7 @@ class GUI:
                     defaultextension = [("All files","*.*")]
                 )
                 if (filename!=""):
+                    # save hasil enkripsi per byte
                     output_file = open(filename, "wb")
                     
                     for byteint in plaintext_byteintarray:
