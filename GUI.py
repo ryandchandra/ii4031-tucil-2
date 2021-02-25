@@ -3,6 +3,8 @@ import tkinter.scrolledtext as st
 import tkinter.filedialog as fd
 import math
 
+from Components import *
+
 from ModifiedRC4Lib import *
 
 class GUI:
