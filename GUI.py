@@ -50,7 +50,7 @@ class GUI:
         self.info.grid(row=0,column=3);
         
         #--- file frame ---#
-        file_method_list = ["Open Plaintext TextFile","Open Ciphertext TextFile","Save Plaintext to TextFile","Save Ciphertext to TextFile","Encrypt/Decrypt File"]
+        file_method_list = ["Open Plaintext from File","Open Ciphertext from File","Save Plaintext to File","Save Ciphertext to File","Encrypt/Decrypt File"]
         self.file_frame = ButtonListFrame(
             title = "File",
             labels = file_method_list,
@@ -121,21 +121,19 @@ class GUI:
         filename = fd.askopenfilename(
             initialdir = "/",
             title = "Select " + text + " file",
-            filetypes = [("Text files (.txt)","*.txt")]
+            filetypes = [("Text files (.txt)","*.txt"),("All files","*.*")]
         )
         
         if (filename!=""): # If filename is chosen
-            file = open(filename,"rt")
-            content = file.read()
-                
-            file.close()
+            content = OpenFileAsByteIntArray(filename)
+            content_bytes = bytes(content)
             
             if (text=="plaintext"): # For plaintext, insert to plaintext field
                 self.plaintext.entry.delete("1.0",tk.END)
-                self.plaintext.entry.insert("1.0",content)
+                self.plaintext.entry.insert("1.0",content_bytes)
             elif (text=="ciphertext"): # For ciphertext, insert to ciphertext field
                 self.ciphertext.entry.delete("1.0",tk.END)
-                self.ciphertext.entry.insert("1.0",content)
+                self.ciphertext.entry.insert("1.0",content_bytes)
         
         return "break"
         
@@ -146,18 +144,22 @@ class GUI:
         filename = fd.asksaveasfilename(
             initialdir = "/",
             title = "Select " + text + " file",
-            filetypes = [("Text files (.txt)","*.txt")],
-            defaultextension = [("Text files (.txt)","*.txt")]
+            filetypes = [("Text files (.txt)","*.txt"),("All files","*.*")],
+            defaultextension = [("Text files (.txt)","*.txt"),("All files","*.*")]
         )
         
         if (filename!=""): # If file name is chosen
-            file = open(filename,"wt")
+            file = open(filename,"wb")
             if (text=="plaintext"): # For plaintext, insert the plaintext
                 plaintext = self.plaintext.entry.get("1.0",tk.END)[:-1]
-                file.write(plaintext)
+                plaintext_byteintarray = StringToByteIntArray(plaintext)
+                for byteint in plaintext_byteintarray:
+                    file.write(byteint.to_bytes(1,byteorder='little'))
             elif (text=="ciphertext"): # For ciphertext, insert the ciphertext
                 ciphertext = self.ciphertext.entry.get("1.0",tk.END)[:-1]
-                file.write(ciphertext)
+                ciphertext_byteintarray = StringToByteIntArray(ciphertext)
+                for byteint in ciphertext_byteintarray:
+                    file.write(byteint.to_bytes(1,byteorder='little'))
                 
             file.close()
         
@@ -178,7 +180,7 @@ class GUI:
         # Create new window for file encrypt/decrypt
         # Components : label, key entry, and buttons
         new_window = tk.Toplevel(self.parent)
-        new_window.title("Binary File")
+        new_window.title("Encrypt/Decrypt File")
         
         self.file = ""
 
@@ -203,7 +205,7 @@ class GUI:
         filename = fd.askopenfilename(
             initialdir = "/",
             title = "Select  file",
-            filetypes = [("Text files (.txt)","*.txt"),("Binary files (.bin)","*.bin"),("All files","*.*")],
+            filetypes = [("Text files (.txt)","*.txt"),("All files","*.*")],
         )
         
         if (filename!=""):
@@ -220,25 +222,20 @@ class GUI:
             if (len(key)==0):
                 self.AlertWindow("Please insert key")
             else:
-                # buka file input
-                input_file = open(self.file,"rb")
-                    
                 # baca per byte lalu masukkan ke array dalam bentuk int
-                plaintext_byteintarray = OpenFileAsByteIntArray(input_file)
-                     
-                input_file.close()
+                plaintext_byteintarray = OpenFileAsByteIntArray(self.file)
                 
                 key_byteintarray = StringToByteIntArray(key)
                 
                 # encrypt
-                # ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray, key_byteintarray)
+                ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray, key_byteintarray)
                 
                 # save
                 filename = fd.asksaveasfilename(
                     initialdir = "/",
                     title = "Save file",
-                    filetypes = [("All files","*.*")],
-                    defaultextension = [("All files","*.*")]
+                    filetypes = [("Text files (.txt)","*.txt"),("All files","*.*")],
+                    defaultextension = [("Text files (.txt)","*.txt"),("All files","*.*")]
                 )
                 if (filename!=""):
                     output_file = open(filename, "wb")
@@ -258,25 +255,20 @@ class GUI:
             if (len(key)==0):
                 self.AlertWindow("Please insert key")
             else:
-                # buka file input
-                input_file = open(self.file,"rb")
-
                 # baca per byte lalu masukkan ke array dalam bentuk int
-                ciphertext_byteintarray = OpenFileAsByteIntArray(input_file)
-                     
-                input_file.close()
+                ciphertext_byteintarray = OpenFileAsByteIntArray(self.file)
                 
                 key_byteintarray = StringToByteIntArray(key)
                 
                 # decrypt
-                # plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray, key_byteintarray)
+                plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray, key_byteintarray)
                 
                 # save
                 filename = fd.asksaveasfilename(
                     initialdir = "/",
                     title = "Save file",
-                    filetypes = [("All files","*.*")],
-                    defaultextension = [("All files","*.*")]
+                    filetypes = [("Text files (.txt)","*.txt"),("All files","*.*")],
+                    defaultextension = [("Text files (.txt)","*.txt"),("All files","*.*")]
                 )
                 if (filename!=""):
                     output_file = open(filename, "wb")

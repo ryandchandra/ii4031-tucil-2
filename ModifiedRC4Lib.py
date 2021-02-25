@@ -7,12 +7,16 @@ def StringToByteIntArray(string):
     return byteint_array
 
 def OpenFileAsByteIntArray(filename):
+    input_file = open(filename,"rb")
+    
     byteint_array = []
     byte = input_file.read(1)
     while (byte):
         byteint = int.from_bytes(plaintext_byte,byteorder='little')
         byteint_array.append(plaintext_byteint)
         byte = input_file.read(1)
+        
+    input_file.close()
         
     return byteint_array
 
