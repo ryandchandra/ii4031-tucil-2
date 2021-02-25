@@ -262,7 +262,7 @@ class GUI:
                 
                 # decrypt
                 plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray,key)
-                
+
                 # save
                 filename = fd.asksaveasfilename(
                     initialdir = "/",

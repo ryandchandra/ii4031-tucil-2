@@ -62,3 +62,37 @@ print(bytes(F))
 print("\n")
 print(bytes(G))
 
+def CobaPermutationEncrypt(ciphertext_ordered, larik_S):
+    # Create encrypted disordered ciphertext 
+    # Input :   ciphertext_ordered (byte in array) belum teracak
+    #           larik_S (num 0-255 acak)
+    # Output :  ciphertext_disordered (byte in array) sudah teracak
+    
+    ciphertext_disordered = ciphertext_ordered.copy()
+    for i in range(len(ciphertext_ordered)):
+        idx = larik_S[i%256] % len(ciphertext_ordered)
+        ciphertext_disordered[i], ciphertext_disordered[idx] = ciphertext_disordered[idx], ciphertext_disordered[i]
+
+    return ciphertext_disordered
+    
+def CobaPermutationDecrypt(ciphertext_disordered, larik_S):
+    # Create decrypted ordered ciphertext 
+    # Input :   ciphertext_disordered (byte in array) sudah teracak
+    #           larik_S (num 0-255 acak)
+    # Output :  ciphertext_ordered (byte in array) belum teracak
+    
+    ciphertext_ordered = ciphertext_disordered.copy()
+    j = len(ciphertext_disordered)-1
+    for i in range(len(ciphertext_disordered)):
+        idx = larik_S[j%256] % len(ciphertext_disordered)
+        ciphertext_ordered[j], ciphertext_ordered[idx] = ciphertext_ordered[idx], ciphertext_ordered[j]
+        j = j-1
+
+    return ciphertext_ordered
+
+J = CobaPermutationEncrypt(D,ModifiedKSA(key))
+K = CobaPermutationDecrypt(J,ModifiedKSA(key))
+print("\n")
+print(bytes(D))
+print(bytes(J))
+print(bytes(K))
