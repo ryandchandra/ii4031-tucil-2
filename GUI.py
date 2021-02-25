@@ -81,8 +81,7 @@ class GUI:
             key_byteintarray = StringToByteIntArray(key)
             
             # Encrypt
-            # ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray,key_byteintarray)
-            
+            ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray,key)
             ciphertext = bytes(ciphertext_byteintarray)
             
             # Insert into ciphertext field
@@ -104,13 +103,12 @@ class GUI:
         elif (len(key)==0): # Empty key
             self.AlertWindow("Please insert key")
         else:
-            ciphertext_byteintarray = StringToByteIntArray(plaintext)
+            ciphertext_byteintarray = StringToByteIntArray(ciphertext)
             key_byteintarray = StringToByteIntArray(key)
             
             # Decrypt
-            # plaintext_byteintarray = ModifiedRC4Decrypt(ciphertext_byteintarray,key_byteintarray)
-
-            plaintext = bytes(ciphertext_byteintarray)
+            plaintext_byteintarray = ModifiedRC4Decrypt(ciphertext_byteintarray,key)
+            plaintext = bytes(plaintext_byteintarray)
             
             # Insert into plaintext field
             self.plaintext.entry.delete("1.0",tk.END)

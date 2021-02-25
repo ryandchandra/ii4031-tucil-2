@@ -42,7 +42,7 @@ def RC4Decrypt(ciphertext_byteintarray,key_byteintarray):
     return plaintext_byteintarray
 
 key = 'aku'
-plaintext = 'Hello World!'
+plaintext = 'Hello World!!!'
 
 A = ModifiedKSA(key)
 B = KSA(key)
@@ -54,11 +54,11 @@ D = ModifiedRC4Encrypt(StringToByteIntArray(plaintext),key)
 E = RC4Encrypt(StringToByteIntArray(plaintext),key)
 F = ModifiedRC4Decrypt(D, key)
 G = RC4Decrypt(E, key)
-print(D)
+print(bytes(D))
 print("\n")
-print(E)
+print(bytes(E))
 print("\n")
-print(F)
+print(bytes(F))
 print("\n")
-print(G)
+print(bytes(G))
 
