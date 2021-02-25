@@ -68,7 +68,7 @@ class GUI:
         # Encrypt plaintext and key
         
         # Take the plaintext and key from the field
-        plaintext = self.plaintext.entry.get("1.0",tk.END)
+        plaintext = self.plaintext.entry.get("1.0",tk.END)[:-1]
         key = self.keyframe.entry.get()
             
         # Check for validity
@@ -95,7 +95,7 @@ class GUI:
         
         # Take the ciphertext and key from the field
         key = self.keyframe.entry.get()
-        ciphertext = self.ciphertext.entry.get("1.0",tk.END)
+        ciphertext = self.ciphertext.entry.get("1.0",tk.END)[:-1]
 
         # Check for validity
         if (len(ciphertext)==0): # Empty ciphertext
@@ -261,7 +261,7 @@ class GUI:
                 key_byteintarray = StringToByteIntArray(key)
                 
                 # decrypt
-                plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray,key)
+                plaintext_byteintarray = ModifiedRC4Decrypt(ciphertext_byteintarray,key)
 
                 # save
                 filename = fd.asksaveasfilename(

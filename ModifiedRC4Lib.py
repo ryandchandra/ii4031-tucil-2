@@ -108,7 +108,7 @@ def ModifiedRC4Encrypt(plaintext_byteintarray,key):
     ciphertext_byteintarray = []
 
     # PRGA
-    for idx in range(len(plaintext_byteintarray)-1):
+    for idx in range(len(plaintext_byteintarray)):
         i = (i+1)%256
         j = (j+larik_S[i])%256
         larik_S[i], larik_S[j] = larik_S[j], larik_S[i]
@@ -116,7 +116,7 @@ def ModifiedRC4Encrypt(plaintext_byteintarray,key):
         keystream = larik_S[temp]
         ciphertext_byteintarray.append(keystream^plaintext_byteintarray[idx])
     
-    # ciphertext_byteintarray = PermutationEncrypt(ciphertext_byteintarray,len(key))
+    ciphertext_byteintarray = PermutationEncrypt(ciphertext_byteintarray,len(key))
     
     return ciphertext_byteintarray
     
@@ -131,10 +131,10 @@ def ModifiedRC4Decrypt(ciphertext_byteintarray,key):
     j = 0
     plaintext_byteintarray = []
 
-    # ciphertext_byteintarray = PermutationDecrypt(ciphertext_byteintarray,len(key))
+    ciphertext_byteintarray = PermutationDecrypt(ciphertext_byteintarray,len(key))
 
     # PRGA
-    for idx in range(len(ciphertext_byteintarray)-1):
+    for idx in range(len(ciphertext_byteintarray)):
         i = (i+1)%256
         j = (j+larik_S[i])%256
         larik_S[i], larik_S[j] = larik_S[j], larik_S[i]
