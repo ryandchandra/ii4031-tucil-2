@@ -12,8 +12,8 @@ def OpenFileAsByteIntArray(filename):
     byteint_array = []
     byte = input_file.read(1)
     while (byte):
-        byteint = int.from_bytes(plaintext_byte,byteorder='little')
-        byteint_array.append(plaintext_byteint)
+        byteint = int.from_bytes(byte,byteorder='little')
+        byteint_array.append(byteint)
         byte = input_file.read(1)
         
     input_file.close()
