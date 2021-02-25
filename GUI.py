@@ -75,9 +75,14 @@ class GUI:
         elif (len(key)==0): # Empty key
             self.AlertWindow("Please insert key")
         else:
+            plaintext_byteintarray = StringToByteIntArray(plaintext)
+            key_byteintarray = StringToByteIntArray(key)
+            
             # Encrypt
-            # ciphertext = VigenereEncrypt(plaintext,key)
-                
+            # ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray,key_byteintarray)
+            
+            ciphertext = bytes(ciphertext_byteintarray)
+            
             # Insert into ciphertext field
             self.ciphertext.entry.delete("1.0",tk.END)
             self.ciphertext.entry.insert("1.0",ciphertext)
@@ -97,9 +102,14 @@ class GUI:
         elif (len(key)==0): # Empty key
             self.AlertWindow("Please insert key")
         else:
+            ciphertext_byteintarray = StringToByteIntArray(plaintext)
+            key_byteintarray = StringToByteIntArray(key)
+            
             # Decrypt
-            # plaintext = VigenereDecrypt(ciphertext,key)
+            # plaintext_byteintarray = ModifiedRC4Decrypt(ciphertext_byteintarray,key_byteintarray)
 
+            plaintext = bytes(ciphertext_byteintarray)
+            
             # Insert into plaintext field
             self.plaintext.entry.delete("1.0",tk.END)
             self.plaintext.entry.insert("1.0",plaintext)
@@ -214,17 +224,14 @@ class GUI:
                 input_file = open(self.file,"rb")
                     
                 # baca per byte lalu masukkan ke array dalam bentuk int
-                plaintext_byteintarray = []
-                plaintext_byte = input_file.read(1)
-                while (plaintext_byte):
-                    plaintext_byteint = int.from_bytes(plaintext_byte,byteorder='little')
-                    plaintext_byteintarray.append(plaintext_byteint)
-                    plaintext_byte = input_file.read(1)
+                plaintext_byteintarray = OpenFileAsByteIntArray(input_file)
                      
                 input_file.close()
                 
+                key_byteintarray = StringToByteIntArray(key)
+                
                 # encrypt
-                # ciphertext_byteintarray = ExtendedEncrypt(readPlaintext, key)
+                # ciphertext_byteintarray = ModifiedRC4Encrypt(plaintext_byteintarray, key_byteintarray)
                 
                 # save
                 filename = fd.asksaveasfilename(
@@ -255,17 +262,14 @@ class GUI:
                 input_file = open(self.file,"rb")
 
                 # baca per byte lalu masukkan ke array dalam bentuk int
-                ciphertext_byteintarray = []
-                ciphertext_byte = input_file.read(1)
-                while (ciphertext_byte):
-                    ciphertext_byteint = int.from_bytes(ciphertext_byte,byteorder='little')
-                    ciphertext_byteintarray.append(ciphertext_byteint)
-                    ciphertext_byte = input_file.read(1)
+                ciphertext_byteintarray = OpenFileAsByteIntArray(input_file)
                      
                 input_file.close()
                 
+                key_byteintarray = StringToByteIntArray(key)
+                
                 # decrypt
-                # plaintext_byteintarray = ExtendedEncrypt(ciphertext_byteintarray, key)
+                # plaintext_byteintarray = ModifiedRC4Encrypt(ciphertext_byteintarray, key_byteintarray)
                 
                 # save
                 filename = fd.asksaveasfilename(
